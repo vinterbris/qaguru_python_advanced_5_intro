@@ -8,7 +8,7 @@ python -m venv .venv
 source .venv/bin/activate 
 ```
 3. Установить зависимости
-```
+```bash
 pip install -r requirements.txt 
 ```
 4. Запустить api микросервис

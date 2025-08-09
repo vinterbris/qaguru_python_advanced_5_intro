@@ -1,10 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status, Response
+
+from data.user_data import user_token, users_list, support_data
 
 app = FastAPI()
 
-user_id = 4
-user_id_not_found = 23
-user_token = 'QpwL5tke4Pnpja7X4'
+
 
 @app.post('/api/login')
 def post_login():
@@ -13,21 +13,32 @@ def post_login():
     }
 
 
-@app.get(f'/api/users/{user_id_not_found}', status_code=404)
-def get_user():
+@app.get('/api/users/{user_id}', status_code=status.HTTP_200_OK)
+async def get_user(user_id: int, response: Response):
+    for user in users_list:
+        if user['id'] == user_id:
+            return {
+                'data': user,
+                'support': support_data
+            }
+    response.status_code = status.HTTP_404_NOT_FOUND
     return {}
 
 
-@app.post('/api/register', status_code=200)
+@app.post('/api/register', status_code=status.HTTP_200_OK)
 def post_user():
     return {
-        "id": user_id,
+        "id": 4,
         "token": user_token
     }
 
 
-@app.delete(f'/api/users/{user_id}', status_code=204)
-def delete_user():
+@app.delete('/api/users/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_user(user_id: int, response: Response):
+    for user in users_list:
+        if user['id'] == user_id:
+            return ''
+    response.status_code = status.HTTP_404_NOT_FOUND
     return ''
 
 
