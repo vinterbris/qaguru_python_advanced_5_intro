@@ -1,12 +1,14 @@
 import json
+import os
 
 from fastapi import FastAPI, status, Response, HTTPException
 from fastapi_pagination import Page, add_pagination, paginate
 
-from data.user_data import user_token
-from models.AppStatus import AppStatus
-from models.User import User
+from reqres_microservice.data.user_data import user_token
+from reqres_microservice.models.AppStatus import AppStatus
+from reqres_microservice.models.User import User
 import uvicorn
+
 
 app = FastAPI()
 add_pagination(app)
@@ -55,15 +57,21 @@ def post_user():
 #     response.status_code = status.HTTP_404_NOT_FOUND
 #     return ''
 
+@app.on_event("startup")
+def load_users():
+    global users
+
+    # Берём директорию, где лежит текущий main.py
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    # Поднимаемся на один уровень вверх и в data/users.json
+    data_path = os.path.join(base_dir, '..', 'reqres_microservice', 'data', 'users.json')
+
+    with open(data_path) as file:
+        users = json.load(file)
+    for user in users:
+        User.model_validate(user)
+    print('Users loaded')
 
 
 if __name__ == "__main__":
-    with open('../data/users.json') as file:
-        users = json.load(file)
-
-    for user in users:
-        User.model_validate(user)
-
-    print('Users loaded')
-
-    uvicorn.run(app, host='localhost', port=8000)
+    uvicorn.run('app.main:app', host='localhost', port=8000, reload=True)

@@ -3,8 +3,8 @@ from http import HTTPStatus
 import pytest
 import requests
 
-from data.test_data import login
-from models.User import User
+from reqres_microservice.data.test_data import login
+from reqres_microservice.models.User import User
 
 
 @pytest.fixture()
