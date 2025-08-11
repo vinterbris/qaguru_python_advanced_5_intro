@@ -12,6 +12,7 @@ source .venv/bin/activate
 pip install -r requirements.txt 
 ```
 4. Переименовать .env.sample в .env
+
 5.Запустить api микросервис
 ```bash
 uvicorn app.main:app --reload
