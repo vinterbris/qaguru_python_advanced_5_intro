@@ -2,14 +2,14 @@
 ```bash
 git clone https://github.com/vinterbris/qaguru_python_advanced_5_intro.git
 ```
-2. В терминале в директории проекта создать и активировать виртуальное окружение
+2. В терминале в директории проекта создать и активировать виртуальное окружение poetry
 ```bash
-python -m venv .venv 
-source .venv/bin/activate 
+poetry env use 3.10 
+source .venv/bin/activate
 ```
 3. Установить зависимости
 ```bash
-pip install -r requirements.txt 
+poetry install
 ```
 4. Переименовать .env.sample в .env
 
