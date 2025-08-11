@@ -3,12 +3,13 @@ import json
 from fastapi import FastAPI, status, Response, HTTPException
 from fastapi_pagination import Page, add_pagination, paginate
 
-from data.user_data import user_token, users_list
+from data.user_data import user_token
 from models.AppStatus import AppStatus
 from models.User import User
 import uvicorn
 
 app = FastAPI()
+add_pagination(app)
 
 users: list[User]
 
@@ -46,15 +47,15 @@ def post_user():
     }
 
 
-@app.delete('/api/users/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
-def delete_user(user_id: int, response: Response):
-    for user in users_list:
-        if user['id'] == user_id:
-            return ''
-    response.status_code = status.HTTP_404_NOT_FOUND
-    return ''
+# @app.delete('/api/users/{user_id}', status_code=status.HTTP_204_NO_CONTENT)
+# def delete_user(user_id: int, response: Response):
+#     for user in users_list:
+#         if user['id'] == user_id:
+#             return ''
+#     response.status_code = status.HTTP_404_NOT_FOUND
+#     return ''
 
-add_pagination(app)
+
 
 if __name__ == "__main__":
     with open('../data/users.json') as file:

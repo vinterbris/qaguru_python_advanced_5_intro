@@ -59,17 +59,6 @@ def test_login_successful(app_url):
     assert body['token'] == 'QpwL5tke4Pnpja7X4'
 
 
-def test_delete_user_check_empty_response(app_url):
-    response = requests.delete(f'{app_url}/users/4')
-
-    assert response.status_code == HTTPStatus.NO_CONTENT
-
-    assert response.text == ''
-
-
-
-
-
 def test_user_registration_successful(app_url):
     response = requests.post(f'{app_url}/register')
 
