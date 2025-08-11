@@ -17,7 +17,7 @@ pip install -r requirements.txt
 ```bash
 uvicorn app.main:app --reload
 ```
-6Запустить тесты командой
+6. Запустить тесты командой
 ```bash
 pytest
 ```
