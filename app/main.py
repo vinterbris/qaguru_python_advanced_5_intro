@@ -3,7 +3,7 @@ import json
 from fastapi import FastAPI, status, Response, HTTPException
 from fastapi_pagination import Page, add_pagination, paginate
 
-from data.user_data import user_token, users_list
+from data.user_data import user_token
 from models.AppStatus import AppStatus
 from models.User import User
 import uvicorn

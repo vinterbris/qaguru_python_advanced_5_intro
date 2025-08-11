@@ -13,7 +13,7 @@ pip install -r requirements.txt
 ```
 4. Запустить api микросервис
 ```bash
-python  reqres_service.py
+uvicorn app.main:app --reload
 ```
 5. Запустить тесты командой
 ```bash
