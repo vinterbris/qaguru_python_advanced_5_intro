@@ -4,7 +4,7 @@ import pytest
 import requests
 
 from reqres_microservice.data.test_data import login
-from reqres_microservice.models.User import User
+from app.models import User
 
 
 @pytest.fixture()
