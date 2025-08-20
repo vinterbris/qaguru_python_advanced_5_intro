@@ -16,6 +16,7 @@ def test_amount_of_expected_objects(app_url, size):
 @pytest.mark.parametrize('size, page_count', [(1, 12), (6, 2), (12, 1)])
 def test_pages_count(app_url, size, page_count):
     response = requests.get(f'{app_url}/users?page=1&size={size}')
+    print(response)
     assert response.status_code == HTTPStatus.OK
 
     body = response.json()
