@@ -45,5 +45,10 @@ def update_user(user_id: int, user: User) -> User:
 def delete_user(user_id: int):
     if user_id < 1:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Invalid user data')
+
+    user = users.get_user(user_id)
+    if not user:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+
     users.delete_user(user_id)
     return {'message': "User deleted"}
