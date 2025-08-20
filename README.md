@@ -17,7 +17,11 @@ poetry install
 ```bash
 uvicorn app.main:app --reload
 ```
-6. Запустить тесты командой
+6. Запустить БД в докере
+```bash
+docker compose up -d
+```
+7. Запустить тесты командой
 ```bash
 pytest
 ```
