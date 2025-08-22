@@ -8,8 +8,11 @@ jobs:
     name: Test app
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -18,10 +21,19 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
+      - name: Cache Poetry
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
       - run: docker compose up -d --build
-      - run: pytest tests
+      - run: pytest
 
       - run: docker compose app logs
         if: always()
