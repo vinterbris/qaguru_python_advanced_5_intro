@@ -8,8 +8,8 @@ jobs:
     name: Test app
     runs-on: ubuntu-latest
     env:
-      POSTGRES-USER: ci
-      POSTGRES-PASSWORD: ci
+      POSTGRES_USER: ci
+      POSTGRES_PASSWORD: ci
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
