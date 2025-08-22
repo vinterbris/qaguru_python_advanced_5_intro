@@ -7,6 +7,9 @@ jobs:
   tests:
     name: Test app
     runs-on: ubuntu-latest
+    env:
+      POSTGRES-USER: ci
+      POSTGRES-PASSWORD: ci
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,6 +35,8 @@ jobs:
 
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
+        env:
+          POETRY_VIRTUALENVS_CREATE: false
       - run: docker compose up -d --build
       - run: pytest
 
