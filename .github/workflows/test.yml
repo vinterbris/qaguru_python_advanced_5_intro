@@ -40,5 +40,5 @@ jobs:
       - run: docker compose up -d --build
       - run: pytest
 
-      - run: docker compose app logs
+      - run: docker compose logs app
         if: always()
