@@ -88,7 +88,7 @@ def test_user(app_url, fill_test_data):
         user = response.json()
         User.model_validate(user)
 
-@pytest.mark.parametrize("user_id", [13])
+@pytest.mark.parametrize("user_id", [99999])
 def test_user_nonexistent(app_url, user_id):
     response = requests.get(f'{app_url}/users/{user_id}')
 

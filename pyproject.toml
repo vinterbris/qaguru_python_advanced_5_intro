@@ -1,3 +1,5 @@
+[tool.pytest.ini_options]
+pythonpath = '.'
 [project]
 name = "qaguru-python-advanced-5-intro"
 version = "0.1.0"

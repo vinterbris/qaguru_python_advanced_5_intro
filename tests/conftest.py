@@ -22,7 +22,6 @@ def app_url():
 @pytest.fixture(scope='session', autouse=True)
 def fill_test_data(app_url):
     path_to_file = 'test_reqres_microservice/data/users.json'
-    # with open(os.path.abspath(path_to_file)) as f:
     with open(relative_from_root(path_to_file)) as f:
         test_data_users = json.load(f)
     api_users = []
