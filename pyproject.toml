@@ -21,7 +21,8 @@ dependencies = [
     "psycopg2-binary (==2.9.10)",
     "sqlalchemy (==2.0.43)",
     "sqlmodel (==0.0.24)",
-    "faker (==37.5.3)"
+    "faker (==37.5.3)",
+    "deepdiff (==8.6.0)"
 ]
 
 
