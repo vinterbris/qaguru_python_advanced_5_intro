@@ -15,7 +15,7 @@ poetry install
 
 5. Запустить api микросервис
 ```bash
-uvicorn app.main:app --reload
+poetry run python -m app.main
 ```
 6. Запустить БД в докере
 ```bash

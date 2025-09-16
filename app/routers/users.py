@@ -28,16 +28,14 @@ async def get_users() -> List[User]:
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
-def create_user(user: User) -> User:
-    UserCreate.model_validate(user.model_dump())
+def create_user(user: UserCreate) -> User:
     return users.create_user(user)
 
 
 @router.patch('/{user_id}', status_code=status.HTTP_200_OK)
-def update_user(user_id: int, user: User) -> User:
+def update_user(user_id: int, user: UserUpdate) -> User:
     if user_id < 1:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail='Invalid user data')
-    UserUpdate.model_validate(user.model_dump())
     return users.update_user(user_id, user)
 
 

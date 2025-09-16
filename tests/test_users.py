@@ -67,7 +67,7 @@ def test_delete_nonexistent_user(app_url):
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_users(app_url):
+def test_get_users(app_url):
     response = requests.get(f'{app_url}/users?page=1&size=6')
     assert response.status_code == HTTPStatus.OK
 
@@ -75,12 +75,12 @@ def test_users(app_url):
     for user in body['items']:
         User.model_validate(user)
 
-def test_users_no_duplicates(users):
+def test_get_users_no_duplicates(users):
     users_ids = [(user['id']) for user in users]
     assert len(users_ids) == len(set(users_ids))
 
 
-def test_user(app_url, fill_test_data):
+def test_get_user(app_url, fill_test_data):
     for user_id in (fill_test_data[0], fill_test_data[-1]):
         response = requests.get(f'{app_url}/users/{user_id}')
         assert response.status_code == HTTPStatus.OK

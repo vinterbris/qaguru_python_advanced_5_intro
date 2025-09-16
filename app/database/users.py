@@ -16,6 +16,7 @@ def get_users() -> List[User]:
         return list(session.exec(statement).all())
 
 def create_user(user: User) -> User:
+    user = User(**user.model_dump(mode="json"))
     with Session(engine) as session:
         session.add(user)
         session.commit()
@@ -23,6 +24,7 @@ def create_user(user: User) -> User:
         return user
 
 def update_user(user_id: int, user: User) -> Type[User]:
+    user = User(**user.model_dump(mode="json"))
     with Session(engine) as session:
         db_user = session.get(User, user_id)
         if not db_user:

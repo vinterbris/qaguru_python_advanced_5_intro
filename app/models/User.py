@@ -1,4 +1,3 @@
-from typing import Optional
 from sqlmodel import SQLModel, Field
 from pydantic import BaseModel, EmailStr, HttpUrl
 
@@ -15,7 +14,7 @@ class UserCreate(BaseModel):
     last_name: str
     avatar: HttpUrl
 
-class UserUpdate(SQLModel):
+class UserUpdate(BaseModel):
     email: EmailStr = None
     first_name: str = None
     last_name: str = None
