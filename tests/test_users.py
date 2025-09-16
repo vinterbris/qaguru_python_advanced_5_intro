@@ -63,7 +63,7 @@ def test_delete_user(app_url, create_user):
     assert response.status_code == HTTPStatus.NO_CONTENT
 
 def test_delete_nonexistent_user(app_url):
-    response = requests.delete(f'{app_url}/users/1')
+    response = requests.delete(f'{app_url}/users/999999')
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
