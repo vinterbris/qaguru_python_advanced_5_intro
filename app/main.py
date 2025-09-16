@@ -5,11 +5,9 @@ dotenv.load_dotenv()
 from app.database.engine import create_db_and_tables
 
 from fastapi import FastAPI
-from fastapi import status as fa_status
 from fastapi_pagination import add_pagination
 
-from routers import status, users
-from test_reqres_microservice.data.user_data import user_token
+from app.routers import status, users
 import uvicorn
 
 
