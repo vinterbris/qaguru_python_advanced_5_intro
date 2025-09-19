@@ -1,9 +1,9 @@
 class Server:
     def __init__(self, env):
         self.reqres = {
-            'dev': '',
+            'dev': 'http://localhost:8000/api',
             'beta': '',
-            'rc': 'http://localhost:8000/api'
+            'rc': ''
         }[env]
         self.microservice_1 = {
             'dev': '',
