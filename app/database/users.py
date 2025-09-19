@@ -1,7 +1,7 @@
 from typing import Iterable, Type, List
 
 from fastapi import HTTPException, status
-from sqlmodel import Session, select
+from sqlmodel import Session, select, delete
 from .engine import engine
 from ..models.User import User
 
@@ -41,4 +41,10 @@ def delete_user(user_id: int):
     with Session(engine) as session:
         user = session.get(User, user_id)
         session.delete(user)
+        session.commit()
+
+
+def clear_db_users():
+    with Session(engine) as session:
+        session.exec(delete(User))
         session.commit()

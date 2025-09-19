@@ -32,7 +32,7 @@ def delete_user(app_url):
             assert response.status_code == HTTPStatus.NO_CONTENT
 
 
-def test_create_user(app_url, delete_user):
+def test_create_user(app_url):#, delete_user):
     response = requests.post(f'{app_url}/users', json=new_user_1)
 
     assert response.status_code == HTTPStatus.CREATED

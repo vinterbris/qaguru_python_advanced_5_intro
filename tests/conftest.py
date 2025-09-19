@@ -6,6 +6,8 @@ import dotenv
 import pytest
 import requests
 
+from app.database.users import clear_db_users
+
 from test_reqres_microservice.utils.path import relative_from_root
 
 
@@ -32,8 +34,12 @@ def fill_test_data(app_url):
 
     user_ids = [user['id'] for user in api_users]
 
+    # clear_db_users()
+
     yield user_ids
 
     for user_id in user_ids:
         response = requests.delete(f'{app_url}/users/{user_id}')
         assert response.status_code == HTTPStatus.NO_CONTENT
+
+
