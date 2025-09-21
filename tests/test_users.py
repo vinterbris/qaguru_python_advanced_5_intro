@@ -5,7 +5,7 @@ import requests
 
 from app.models.User import User
 from test_reqres_microservice.data.user_data import new_user_1, new_user_2
-from tests.conftest import app_url, fill_test_data
+from tests.conftest import app_url, prepare_test_data
 
 
 @pytest.fixture()
@@ -32,7 +32,7 @@ def delete_user(app_url):
             assert response.status_code == HTTPStatus.NO_CONTENT
 
 
-def test_create_user(app_url):#, delete_user):
+def test_create_user(app_url, delete_user):
     response = requests.post(f'{app_url}/users', json=new_user_1)
 
     assert response.status_code == HTTPStatus.CREATED
@@ -80,8 +80,8 @@ def test_get_users_no_duplicates(users):
     assert len(users_ids) == len(set(users_ids))
 
 
-def test_get_user(app_url, fill_test_data):
-    for user_id in (fill_test_data[0], fill_test_data[-1]):
+def test_get_user(app_url, prepare_test_data):
+    for user_id in (prepare_test_data[0], prepare_test_data[-1]):
         response = requests.get(f'{app_url}/users/{user_id}')
         assert response.status_code == HTTPStatus.OK
 
