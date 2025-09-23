@@ -4,7 +4,7 @@ import pytest
 import requests
 
 from app.models.User import User
-from test_reqres_microservice.data.user_data import new_user_1, new_user_2
+from test_reqres_microservice.data.user_data import new_user_1, new_user_2, new_user_0
 from tests.conftest import app_url, prepare_test_data
 
 
@@ -32,22 +32,23 @@ def delete_user(app_url):
             assert response.status_code == HTTPStatus.NO_CONTENT
 
 
-def test_create_user(app_url, delete_user):
-    response = requests.post(f'{app_url}/users', json=new_user_1)
+def test_create_user(send_reqres, delete_user):
+    user = new_user_1
+    response = send_reqres.post('/users', json=new_user_1)
 
     assert response.status_code == HTTPStatus.CREATED
 
     body = response.json()
-    assert body['email'] == new_user_1['email']
-    assert body['first_name'] == new_user_1['first_name']
-    assert body['last_name'] == new_user_1['last_name']
-    assert body['avatar'] == new_user_1['avatar']
+    assert body['email'] == user['email']
+    assert body['first_name'] == user['first_name']
+    assert body['last_name'] == user['last_name']
+    assert body['avatar'] == user['avatar']
 
-def test_patch_user(app_url, create_user, delete_user):
+def test_patch_user(send_reqres, create_user, delete_user):
     user_id = create_user
     user_data = new_user_2
     user_data['email'] = new_user_1['email']
-    response = requests.patch(f'{app_url}/users/{user_id}', json=new_user_2)
+    response = send_reqres.patch(f'/users/{user_id}', json=new_user_2)
 
     assert response.status_code == HTTPStatus.OK
 
@@ -57,18 +58,18 @@ def test_patch_user(app_url, create_user, delete_user):
     assert body['last_name'] == new_user_2['last_name']
     assert body['avatar'] == new_user_2['avatar']
 
-def test_delete_user(app_url, create_user):
+def test_delete_user(send_reqres, create_user):
     user_id = create_user
-    response = requests.delete(f'{app_url}/users/{user_id}')
+    response = send_reqres.delete(f'/users/{user_id}')
     assert response.status_code == HTTPStatus.NO_CONTENT
 
-def test_delete_nonexistent_user(app_url):
-    response = requests.delete(f'{app_url}/users/999999')
+def test_delete_nonexistent_user(send_reqres):
+    response = send_reqres.delete('/users/50000')
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 
-def test_get_users(app_url):
-    response = requests.get(f'{app_url}/users?page=1&size=6')
+def test_users(send_reqres):
+    response = send_reqres.get('/users?page=1&size=6')
     assert response.status_code == HTTPStatus.OK
 
     body = response.json()
@@ -80,41 +81,22 @@ def test_get_users_no_duplicates(users):
     assert len(users_ids) == len(set(users_ids))
 
 
-def test_get_user(app_url, prepare_test_data):
+def test_get_user(send_reqres, prepare_test_data):
     for user_id in (prepare_test_data[0], prepare_test_data[-1]):
-        response = requests.get(f'{app_url}/users/{user_id}')
+        response = send_reqres.get(f'/users/{user_id}')
         assert response.status_code == HTTPStatus.OK
 
         user = response.json()
         User.model_validate(user)
 
-@pytest.mark.parametrize("user_id", [13])
-def test_user_nonexistent(app_url, user_id):
-    response = requests.get(f'{app_url}/users/{user_id}')
+@pytest.mark.parametrize("user_id", [99999])
+def test_get_nonexistent_user(send_reqres, user_id):
+    response = send_reqres.get(f'/users/{user_id}')
 
     assert response.status_code == HTTPStatus.NOT_FOUND
 
 @pytest.mark.parametrize("user_id", [-1, 0, 'sadf'])
-def test_user_invalid_data(app_url, user_id):
-    response = requests.get(f'{app_url}/users/{user_id}')
+def test_user_invalid_data(send_reqres, user_id):
+    response = send_reqres.get(f'/users/{user_id}')
 
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
-
-# def test_login_successful(app_url):
-#     response = requests.post(f'{app_url}/login',
-#                              json=login)
-#
-#     assert response.status_code == HTTPStatus.OK
-#
-#     body = response.json()
-#     assert body['token'] == 'QpwL5tke4Pnpja7X4'
-
-
-# def test_user_registration_successful(app_url):
-#     response = requests.post(f'{app_url}/register')
-#
-#     assert response.status_code == HTTPStatus.OK
-#
-#     body = response.json()
-#     assert body['id'] == 4
-#     assert body['token'] == 'QpwL5tke4Pnpja7X4'
