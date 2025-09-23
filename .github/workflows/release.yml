@@ -38,7 +38,7 @@ jobs:
         env:
           POETRY_VIRTUALENVS_CREATE: false
       - run: docker compose up -d --build
-      - run: pytest --junit-xml=test-results.xml
+      - run: pytest --env 'dev' --junit-xml=test-results.xml
         env:
           APP_API_URL: http://localhost:8000/api
 
