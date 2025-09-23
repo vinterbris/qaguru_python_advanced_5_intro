@@ -1,7 +1,7 @@
 class Server:
     def __init__(self, env):
         self.reqres = {
-            'dev': 'http://localhost:8000/api',
+            'dev': 'http://localhost:8005/api',
             'beta': '',
             'rc': ''
         }[env]

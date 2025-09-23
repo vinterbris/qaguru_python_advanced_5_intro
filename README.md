@@ -10,5 +10,5 @@ docker compose up -d
 ```
 4. Запустить тесты командой
 ```bash
-pytest --env 'rc'
+pytest --env 'dev'
 ```
